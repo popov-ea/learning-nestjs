@@ -1,5 +1,9 @@
-export interface CreateTaskDto {
-    title: string,
-    description: string 
-    plannedFinishDate: Date 
+import { IsString, IsDate } from "class-validator";
+export class CreateTaskDto {
+    @IsString()
+    title: string;
+    @IsString()
+    description: string; 
+    @IsDate()
+    plannedFinishDate: Date; 
 }

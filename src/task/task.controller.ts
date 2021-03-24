@@ -32,17 +32,11 @@ export class TaskController {
 
     @Post()
     update(@Body()updateTaskDto: UpdateTaskDto): TaskDto {
-        if (updateTaskDto.id == null || updateTaskDto.id <= 0) {
-            throw new BadRequestException(`Incorrect id: ${updateTaskDto.id}`);
-        }
         return this.taskService.update(updateTaskDto);
     }
 
     @Delete(":taskId")
     delete(@Param("taskId")taskId: number) {
-        if (taskId == null || taskId <= 0) {
-            throw new BadRequestException(`Incorrect id: ${taskId}`);
-        }
         return this.taskService.delete(taskId);
     }
 }
