@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, UseFilters, Body, BadRequestException, Delete, ForbiddenException, ParseIntPipe, HttpException, HttpStatus, Put } from "@nestjs/common";
+import { Controller, Get, Post, Param, UseFilters, Body, BadRequestException, Delete, ForbiddenException, ParseIntPipe, HttpException, HttpStatus, Put, UseGuards } from "@nestjs/common";
 import { FriendlyException } from "src/exceptions/friendly.exception";
 import { FriendlyExceptionFilter } from "src/filters/friendly-exception.filter";
 import LoggingHttpExceptionFilter from "src/filters/logging-http-exception.filter";
@@ -8,15 +8,19 @@ import { TaskDto } from "./dto/task.dto";
 import UpdateTaskDto from "./dto/update-task.dto";
 import { TaskService } from "./task.service";
 import ValidationPipe from "../pipes/validation.pipe";
+import RolesGuard from "src/guards/roles.guard";
+import { Roles } from "src/decorators/roles.decorator";
 
 @Controller("tasks")
 @UseFilters(FriendlyExceptionFilter, LoggingHttpExceptionFilter)
+@UseGuards(RolesGuard)
 export class TaskController {
     constructor(private taskService: TaskService) {
 
     }
 
     @Get("shit")
+    @Roles(["admin"])
     justTestingMiddleware() {
         console.log("shit");
         throw new ForbiddenException();
