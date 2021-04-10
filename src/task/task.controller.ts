@@ -44,7 +44,7 @@ export class TaskController {
     }
 
     @Delete(":taskId")
-    delete(@Param("taskId") taskId: number) {
+    delete(@Param("taskId", ParseIntPipe) taskId: number) {
         return this.taskService.delete(taskId);
     }
 }
