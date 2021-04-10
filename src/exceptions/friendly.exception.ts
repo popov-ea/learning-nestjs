@@ -1,4 +1,3 @@
-
 export class FriendlyException extends Error {
     /**
      * Creates a friendly exception

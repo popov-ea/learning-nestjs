@@ -4,11 +4,8 @@ import { LoggerMiddleware } from "./middlewares/logger.middleware";
 import { FunctionMiddleware } from "./middlewares/function.middleware";
 
 @Module({
-  imports: [TaskModule],
+  imports: [TaskModule]
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(FunctionMiddleware, LoggerMiddleware)
-      .forRoutes("tasks");
-  }
+export class AppModule {
+
 }

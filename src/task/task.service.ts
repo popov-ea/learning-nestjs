@@ -3,8 +3,8 @@ import { CreateTaskDto } from "./dto/create-task.dto";
 import { TaskCreationResultDto } from "./dto/task-creation-result.dto";
 import { TaskDto } from "./dto/task.dto";
 import { Task } from "./interfaces/task.interface";
-import { TaskRepository, TASK_REPOSITORY } from "./interfaces/task-repository.interface";import UpdateTaskDto from "./dto/update-task.dto";
-;
+import { TaskRepository, TASK_REPOSITORY } from "./interfaces/task-repository.interface";
+import UpdateTaskDto from "./dto/update-task.dto";
 
 @Injectable()
 export class TaskService {
