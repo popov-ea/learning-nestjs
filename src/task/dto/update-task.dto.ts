@@ -1,9 +1,11 @@
+import { Type } from "class-transformer";
 import { IsString, IsInt, IsDate, Min } from "class-validator";
 export default class UpdateTaskDto {
-    @IsInt()
-    @Min(1)
-    id: number;
+    @IsString()
     title: string;
+    @IsString()
     description: string; 
+    @Type(() => Date)
+    @IsDate()
     plannedFinishDate: Date; 
 }

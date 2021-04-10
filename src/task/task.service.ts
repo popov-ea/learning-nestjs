@@ -30,7 +30,7 @@ export class TaskService {
     }
 
     create(createDto: CreateTaskDto): TaskCreationResultDto {
-        if (createDto.title != null && createDto.plannedFinishDate != null && createDto.description != null) {
+        if (createDto.title == null || createDto.plannedFinishDate == null || createDto.description == null) {
             throw new Error("Incorrect data");
         }
         const added = this.taskRepository.add({
@@ -70,11 +70,11 @@ export class TaskService {
         return this.taskRepository.getAllAsync().then((tasks) => tasks.map((t) => t as TaskDto));
     }
 
-    update(updateTaskDto: UpdateTaskDto): TaskDto {
-        if (updateTaskDto.id == null || updateTaskDto.id <= 0) {
-            throw new Error(`Incorrect task id: ${updateTaskDto.id}`);
+    update(taskId: number, updateTaskDto: UpdateTaskDto): TaskDto {
+        const task = this.taskRepository.queryFirst(t => t.id === taskId);
+        if (task == null) {
+            throw new Error(`Task with id ${taskId} not found`);
         }
-        const task = this.taskRepository.queryFirst(t => t.id === updateTaskDto.id);
         task.description = updateTaskDto.description;
         task.title = updateTaskDto.title;
         task.plannedFinishDate = updateTaskDto.plannedFinishDate;
@@ -82,11 +82,11 @@ export class TaskService {
         return task as TaskDto;
     }
 
-    async updateAsync(updateTaskDto: UpdateTaskDto): Promise<TaskDto> {
-        if (updateTaskDto.id == null || updateTaskDto.id <= 0) {
-            throw new Error(`Incorrect task id ${updateTaskDto.id}`);
+    async updateAsync(taskId: number, updateTaskDto: UpdateTaskDto): Promise<TaskDto> {
+        if (taskId == null || taskId <= 0) {
+            throw new Error(`Incorrect task id ${taskId}`);
         }
-        return this.taskRepository.queryFirstAsync(t => t.id === updateTaskDto.id)
+        return this.taskRepository.queryFirstAsync(t => t.id === taskId)
             .then((t) => {
                 t.title = updateTaskDto.title;
                 t.description = updateTaskDto.description;

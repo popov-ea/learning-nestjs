@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, UseFilters, Body, BadRequestException, Delete, ForbiddenException, ParseIntPipe, HttpException, HttpStatus } from "@nestjs/common";
+import { Controller, Get, Post, Param, UseFilters, Body, BadRequestException, Delete, ForbiddenException, ParseIntPipe, HttpException, HttpStatus, Put } from "@nestjs/common";
 import { FriendlyException } from "src/exceptions/friendly.exception";
 import { FriendlyExceptionFilter } from "src/filters/friendly-exception.filter";
 import LoggingHttpExceptionFilter from "src/filters/logging-http-exception.filter";
@@ -7,6 +7,7 @@ import { TaskCreationResultDto } from "./dto/task-creation-result.dto";
 import { TaskDto } from "./dto/task.dto";
 import UpdateTaskDto from "./dto/update-task.dto";
 import { TaskService } from "./task.service";
+import ValidationPipe from "../pipes/validation.pipe";
 
 @Controller("tasks")
 @UseFilters(FriendlyExceptionFilter, LoggingHttpExceptionFilter)
@@ -34,13 +35,13 @@ export class TaskController {
     }
 
     @Post()
-    create(@Body() createTaskDto: CreateTaskDto): TaskCreationResultDto {
+    create(@Body(new ValidationPipe()) createTaskDto: CreateTaskDto): TaskCreationResultDto {
         return this.taskService.create(createTaskDto);
     }
 
-    @Post()
-    update(@Body() updateTaskDto: UpdateTaskDto): TaskDto {
-        return this.taskService.update(updateTaskDto);
+    @Put(":taskId")
+    update(@Param("taskId", ParseIntPipe) taskId: number, @Body(new ValidationPipe()) updateTaskDto: UpdateTaskDto): TaskDto {
+        return this.taskService.update(taskId, updateTaskDto);
     }
 
     @Delete(":taskId")

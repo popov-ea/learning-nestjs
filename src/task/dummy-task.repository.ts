@@ -17,7 +17,7 @@ export class DummyTaskRepository implements TaskRepository {
     async getAllAsync(): Promise<Task[]> {
         return Promise.resolve(this.getAll());
     }
-    
+
     remove(task: Task) {
         if (!this.tasks.includes(task)) {
             throw new Error(`Task with id ${task.id} not found in repository`);
@@ -36,13 +36,16 @@ export class DummyTaskRepository implements TaskRepository {
     }
 
     add(task: Task): Task {
+        task.id = this.tasks.length > 0 ? 
+            Math.max(...this.tasks.map(t => t.id)) + 1
+            : 1;
         const index = this.tasks.push(task);
         return this.tasks[index];
     }
     async addAsync(task: Task): Promise<Task> {
         return Promise.resolve(this.add(task));
     }
-    
+
     query(predicate: (t: Task) => boolean): Task[] {
         return this.tasks.filter(predicate);
     }
