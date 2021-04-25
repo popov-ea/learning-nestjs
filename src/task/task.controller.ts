@@ -6,7 +6,7 @@ import { CreateTaskDto } from "./dto/create-task.dto";
 import { TaskCreationResultDto } from "./dto/task-creation-result.dto";
 import { TaskDto } from "./dto/task.dto";
 import UpdateTaskDto from "./dto/update-task.dto";
-import { TaskService } from "./task.service";
+import { TaskService } from "../domain/task/task.service";
 import ValidationPipe from "../pipes/validation.pipe";
 import RolesGuard from "src/guards/roles.guard";
 import { Roles } from "src/decorators/roles.decorator";
@@ -39,7 +39,7 @@ export class TaskController {
     }
 
     @Post()
-    create(@Body(new ValidationPipe()) createTaskDto: CreateTaskDto): TaskCreationResultDto {
+    create(@Body(new ValidationPipe()) createTaskDto: CreateTaskDto): TaskDto {
         return this.taskService.create(createTaskDto);
     }
 

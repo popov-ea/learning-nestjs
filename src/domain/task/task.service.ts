@@ -1,10 +1,8 @@
 import { Injectable, Inject } from "@nestjs/common";
 import { CreateTaskDto } from "./dto/create-task.dto";
-import { TaskCreationResultDto } from "./dto/task-creation-result.dto";
 import { TaskDto } from "./dto/task.dto";
-import { Task } from "./interfaces/task.interface";
 import { TaskRepository, TASK_REPOSITORY } from "./interfaces/task-repository.interface";
-import UpdateTaskDto from "./dto/update-task.dto";
+import { UpdateTaskDto } from "./dto/update-task.dto";
 
 @Injectable()
 export class TaskService {
@@ -15,7 +13,7 @@ export class TaskService {
                 
     }
 
-    createAsync(createDto: CreateTaskDto) : Promise<TaskCreationResultDto> {
+    createAsync(createDto: CreateTaskDto) : Promise<TaskDto> {
         return this.taskRepository.addAsync({
             id: null,
             title: createDto.title,
@@ -23,17 +21,14 @@ export class TaskService {
             description: createDto.description,
             startDate: null,
             finishDate: null
-        }).then((task) => ({
-            success: true,
-            task: task as TaskDto
-        }));
+        });
     }
 
-    create(createDto: CreateTaskDto): TaskCreationResultDto {
+    create(createDto: CreateTaskDto): TaskDto {
         if (createDto.title == null || createDto.plannedFinishDate == null || createDto.description == null) {
             throw new Error("Incorrect data");
         }
-        const added = this.taskRepository.add({
+        return this.taskRepository.add({
             id: null,
             title: createDto.title,
             plannedFinishDate: createDto.plannedFinishDate,
@@ -41,10 +36,6 @@ export class TaskService {
             startDate: null,
             finishDate: null
         });
-        return {
-            success: true,
-            task: added as TaskDto
-        };
     }
 
     async getAsync(taskId: number) : Promise<TaskDto> {

@@ -1,7 +1,8 @@
 import { Type } from "class-transformer";
-import { IsString, IsDate, IsDateString } from "class-validator";
+import { IsString, IsDate, IsDateString, IsNotEmpty } from "class-validator";
 export class CreateTaskDto {
     @IsString()
+    @IsNotEmpty()
     title: string;
     @IsString()
     description: string; 

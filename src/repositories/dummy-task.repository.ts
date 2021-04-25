@@ -1,5 +1,5 @@
-import { Task } from "./interfaces/task.interface";
-import { TaskRepository } from "./interfaces/task-repository.interface";
+import { Task } from "../domain/task/interfaces/task.interface";
+import { TaskRepository } from "../domain/task/interfaces/task-repository.interface";
 
 export class DummyTaskRepository implements TaskRepository {
     private tasks: Task[] = [];
