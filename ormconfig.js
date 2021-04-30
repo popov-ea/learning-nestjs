@@ -7,11 +7,7 @@ if (isDev) {
 } else {
     dbConfig = {
         type: process.env.DB_TYPE,
-        url: process.env.DB_URL,
-        extra: {
-            ssl: true
-        }
-    }
+        url: process.env.DB_URL
 }
 
 console.log("DB", dbConfig);
